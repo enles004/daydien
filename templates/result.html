@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>MST</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .result-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .highlight {
+            background-color: #ffe680;
+        }
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+        /* Thêm lớp để tạo vùng cuộn ngang cho bảng */
+        .table-responsive {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        table {
+            width: auto; /* Đảm bảo bảng không bị co hẹp */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">CÂY KHUNG NHỎ NHẤT</h1>
+
+        <div class="result-box">
+            <h2>Dữ Liệu Ma Trận</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            {% for i in range(N) %}
+                                <th>Phòng {{ i }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(N) %}
+                            <tr>
+                                <th>Phòng {{ i }}</th>
+                                {% for j in range(N) %}
+                                    <td class="{% if (i, j) in mst_only %}highlight{% endif %}">
+                                        {{ matrix[i][j] }}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="result-box">
+            <h2>Danh Sách Các Phòng Nối Với Nhau:</h2>
+            <p>{{ mst_edges }}</p>
+            <ul>
+                {% for u, v, length in mst_edges %}
+                    <li>Phòng {{ u }} -- Phòng {{ v }} : {{ length }} đơn vị</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="result-box">
+            <h2>Tổng Độ Dài: {{ total_length }}</h2>
+        </div>
+
+        <div class="result-box">
+            <h2>Đồ Thị:</h2>
+            <img src="{{ url_for('static', filename='mst_graph.png') }}" alt="MST Graph" class="img-fluid">
+        </div>
+
+        <div class="back-button">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Quay lại trang chính</a>
+        </div>
+
+        <div>
+            <p></p>
+        </div>
+    </div>
+</body>
+</html>

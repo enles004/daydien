@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Cây Khung Nhỏ Nhất</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 600px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #343a40;
+        }
+        label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .btn-primary {
+            width: 100%;
+        }
+        .alert {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cây Khung Nhỏ Nhất</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="option">Chọn tùy chọn:</label>
+                <select name="option" id="option" class="form-control custom-select">
+                    <option value="upload">Tải lên file</option>
+                    <option value="random">Tạo ma trận ngẫu nhiên</option>
+                </select>
+            </div>
+
+            <div id="upload" class="form-group">
+                <label for="file">Chọn file (chỉ hỗ trợ định dạng .txt):</label>
+                <input type="file" name="file" id="file" class="form-control-file">
+            </div>
+
+            <div id="random" class="form-group" style="display:none;">
+                <label for="matrix_size">Kích thước ma trận (2-20):</label>
+                <input type="number" name="matrix_size" id="matrix_size" min="2" max="20" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Xác nhận</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger mt-3">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        // Script để chuyển đổi giữa hai phương thức
+        document.getElementById('option').addEventListener('change', function() {
+            const upload = document.getElementById('upload');
+            const random = document.getElementById('random');
+            if (this.value === 'upload') {
+                upload.style.display = 'block';
+                random.style.display = 'none';
+            } else {
+                upload.style.display = 'none';
+                random.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
